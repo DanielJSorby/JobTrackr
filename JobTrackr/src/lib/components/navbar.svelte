@@ -41,6 +41,22 @@
         text-decoration: none;
         color: #fff;
         font-size: 1.2rem;
+        position: relative;
+    }
+
+    nav ul li a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -4px;
+        left: 0;
+        background-color: #fff;
+        transition: width 0.3s ease-in-out;
+    }
+
+    nav ul li a:hover::after {
+        width: 100%;
     }
 
     nav ul li a:hover {
