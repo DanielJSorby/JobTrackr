@@ -5,3 +5,46 @@
 	box-sizing: border-box;
 	font-family: "gesta", sans-serif;
 }
+
+button.button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	color: #000;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	font-size: 20px;
+	transition: all 0.3s ease;
+	cursor: pointer;
+}
+
+button.button.filled {
+	background-color: #1d40b0;
+	color: #fff;
+}
+
+button.button.filled:hover {
+	background-color: #2d50c0;
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(29, 64, 176, 0.2);
+}
+
+button.button.transparent {
+	background-color: transparent;
+	color: #000;
+	border: 1px solid #1d40b0;
+	border-style: dashed;
+}
+
+button.button.transparent:hover {
+	background-color: rgba(29, 64, 176, 0.05);
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(29, 64, 176, 0.1);
+	border-style: solid;
+}
+
+a {
+	text-decoration: none;
+}
