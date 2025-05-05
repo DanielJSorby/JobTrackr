@@ -2,8 +2,19 @@
     let email = $state('');
     let password = $state('');
 
-    function handleSubmit() {
-        console.log(email, password);
+    async function handleSubmit() {
+        try {
+            const response = await fetch('/api/user/log-in', {
+                method: 'POST',
+                body: JSON.stringify({ email, password }),
+            });
+            const data = await response.json();
+            console.log(data);
+            console.log(`User ID: ${data.userId}`);
+        } catch (error) {
+            console.error(error);
+        }
+        window.location.href = '/dashboard';
     }
 </script>
 
