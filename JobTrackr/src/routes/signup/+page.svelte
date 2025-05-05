@@ -24,7 +24,7 @@
             <button class="button filled" type="submit">Sign Up</button>
         </form>
         <div class="bottom-message">
-            <p>Don't have an account? <a href="/signup">Sign up</a></p>
+            <p>Already have an account? <a href="/login">Log in</a></p>
         </div>
     </div>
 </div>
