@@ -17,10 +17,9 @@
         <form onsubmit={handleSubmit}>
             <label for="name">Name</label>
             <input type="text" id="name" placeholder="John Doe" bind:value={name} />
+            <input type="text" id="name" placeholder="John Doe" bind:value={name} required />
             <label for="email">Email</label>
-            <input type="email" id="email" placeholder="john@email.com" bind:value={email} />
             <label for="password">Password</label>
-            <input type="password" id="password" placeholder="********" bind:value={password} />
             <button class="button filled" type="submit">Sign Up</button>
         </form>
         <div class="bottom-message">

@@ -15,9 +15,9 @@
         </div>
         <form onsubmit={handleSubmit}>
             <label for="email">Email</label>
-            <input type="email" id="email" placeholder="john@email.com" bind:value={email} />
+            <input type="email" id="email" placeholder="john@email.com" bind:value={email} required/>
             <label for="password">Password</label>
-            <input type="password" id="password" placeholder="********" bind:value={password} />
+            <input type="password" id="password" placeholder="********" bind:value={password} required/>
             <button class="button filled" type="submit">Log In</button>
         </form>
         <div class="bottom-message">
