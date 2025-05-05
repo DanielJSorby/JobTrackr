@@ -1,0 +1,239 @@
+{
+	"jobs": [
+		{
+			"id": "550e8400-e29b-41d4-a716-446655440000",
+			"user_id": "user123",
+			"company_name": "TechCorp AS",
+			"role_title": "Senior Frontend Developer",
+			"location": "Oslo",
+			"status": "Applied",
+			"application_date": "2024-03-15",
+			"job_link": "https://techcorp.no/careers/frontend-dev",
+			"notes": "Looking for someone with 5+ years of React experience",
+			"timeline": {
+				"events": [
+					{
+						"date": "2024-03-15",
+						"type": "application",
+						"description": "Submitted application"
+					}
+				]
+			}
+		},
+		{
+			"id": "550e8400-e29b-41d4-a716-446655440001",
+			"user_id": "user123",
+			"company_name": "Nordic Solutions",
+			"role_title": "Full Stack Developer",
+			"location": "Bergen",
+			"status": "Interview",
+			"application_date": "2024-03-10",
+			"job_link": "https://nordicsolutions.no/jobs",
+			"notes": "Technical interview scheduled for next week",
+			"timeline": {
+				"events": [
+					{
+						"date": "2024-03-10",
+						"type": "application",
+						"description": "Submitted application"
+					},
+					{
+						"date": "2024-03-12",
+						"type": "interview",
+						"description": "First interview scheduled"
+					}
+				]
+			}
+		},
+		{
+			"id": "550e8400-e29b-41d4-a716-446655440002",
+			"user_id": "user123",
+			"company_name": "FjordTech",
+			"role_title": "DevOps Engineer",
+			"location": "Trondheim",
+			"status": "Saved",
+			"application_date": null,
+			"job_link": "https://fjordtech.no/careers",
+			"notes": "Need to update CV before applying",
+			"timeline": {
+				"events": [
+					{
+						"date": "2024-03-14",
+						"type": "saved",
+						"description": "Job saved for later"
+					}
+				]
+			}
+		},
+		{
+			"id": "550e8400-e29b-41d4-a716-446655440003",
+			"user_id": "user123",
+			"company_name": "Arctic Digital",
+			"role_title": "Backend Developer",
+			"location": "Tromsø",
+			"status": "Offer",
+			"application_date": "2024-02-28",
+			"job_link": "https://arcticdigital.no/jobs",
+			"notes": "Received offer, considering options",
+			"timeline": {
+				"events": [
+					{
+						"date": "2024-02-28",
+						"type": "application",
+						"description": "Submitted application"
+					},
+					{
+						"date": "2024-03-05",
+						"type": "interview",
+						"description": "Technical interview"
+					},
+					{
+						"date": "2024-03-10",
+						"type": "offer",
+						"description": "Received job offer"
+					}
+				]
+			}
+		},
+		{
+			"id": "550e8400-e29b-41d4-a716-446655440004",
+			"user_id": "user123",
+			"company_name": "Viking Software",
+			"role_title": "Mobile Developer",
+			"location": "Stavanger",
+			"status": "Rejected",
+			"application_date": "2024-03-01",
+			"job_link": "https://vikingsoftware.no/careers",
+			"notes": "Not enough mobile development experience",
+			"timeline": {
+				"events": [
+					{
+						"date": "2024-03-01",
+						"type": "application",
+						"description": "Submitted application"
+					},
+					{
+						"date": "2024-03-08",
+						"type": "rejection",
+						"description": "Application rejected"
+					}
+				]
+			}
+		},
+		{
+			"id": "550e8400-e29b-41d4-a716-446655440005",
+			"user_id": "user123",
+			"company_name": "Nordic Bank",
+			"role_title": "Security Engineer",
+			"location": "Oslo",
+			"status": "Interview",
+			"application_date": "2024-03-12",
+			"job_link": "https://nordicbank.no/careers",
+			"notes": "Second interview next week",
+			"timeline": {
+				"events": [
+					{
+						"date": "2024-03-12",
+						"type": "application",
+						"description": "Submitted application"
+					},
+					{
+						"date": "2024-03-14",
+						"type": "interview",
+						"description": "First interview completed"
+					}
+				]
+			}
+		},
+		{
+			"id": "550e8400-e29b-41d4-a716-446655440006",
+			"user_id": "user123",
+			"company_name": "GreenTech Solutions",
+			"role_title": "Cloud Architect",
+			"location": "Bergen",
+			"status": "Saved",
+			"application_date": null,
+			"job_link": "https://greentech.no/jobs",
+			"notes": "Need to prepare cloud certification",
+			"timeline": {
+				"events": [
+					{
+						"date": "2024-03-15",
+						"type": "saved",
+						"description": "Job saved for later"
+					}
+				]
+			}
+		},
+		{
+			"id": "550e8400-e29b-41d4-a716-446655440007",
+			"user_id": "user123",
+			"company_name": "Fjord Gaming",
+			"role_title": "Game Developer",
+			"location": "Trondheim",
+			"status": "Applied",
+			"application_date": "2024-03-14",
+			"job_link": "https://fjordgaming.no/careers",
+			"notes": "Unity experience required",
+			"timeline": {
+				"events": [
+					{
+						"date": "2024-03-14",
+						"type": "application",
+						"description": "Submitted application"
+					}
+				]
+			}
+		},
+		{
+			"id": "550e8400-e29b-41d4-a716-446655440008",
+			"user_id": "user123",
+			"company_name": "Arctic AI",
+			"role_title": "Machine Learning Engineer",
+			"location": "Oslo",
+			"status": "Rejected",
+			"application_date": "2024-03-05",
+			"job_link": "https://arcticai.no/jobs",
+			"notes": "Position filled internally",
+			"timeline": {
+				"events": [
+					{
+						"date": "2024-03-05",
+						"type": "application",
+						"description": "Submitted application"
+					},
+					{
+						"date": "2024-03-10",
+						"type": "rejection",
+						"description": "Application rejected"
+					}
+				]
+			}
+		},
+		{
+			"id": "550e8400-e29b-41d4-a716-446655440009",
+			"user_id": "user123",
+			"company_name": "Nordic Health Tech",
+			"role_title": "Software Engineer",
+			"location": "Oslo",
+			"status": "Interview",
+			"application_date": "2024-03-13",
+			"job_link": "https://nordichealth.no/careers",
+			"notes": "Healthcare experience preferred",
+			"timeline": {
+				"events": [
+					{
+						"date": "2024-03-13",
+						"type": "application",
+						"description": "Submitted application"
+					},
+					{
+						"date": "2024-03-15",
+						"type": "interview",
+						"description": "Initial screening interview"
+					}
+				]
+			}
+		}
+	]
+}
