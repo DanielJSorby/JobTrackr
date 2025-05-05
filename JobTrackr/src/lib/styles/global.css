@@ -56,6 +56,14 @@ button.button.transparent:hover {
 	border-style: solid;
 }
 
+button img.right {
+	transition: all 0.3s ease;
+}
+
+button:hover img.right {
+	transform: translateX(5px);
+}
+
 a {
 	text-decoration: none;
 }

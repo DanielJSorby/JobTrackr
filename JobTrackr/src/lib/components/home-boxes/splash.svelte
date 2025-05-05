@@ -10,7 +10,7 @@
                 </p>
             </div>
             <div class="button-container">
-                <a href="/signup"><button class="button filled">Get Started <img src="/icons/arrow-right.svg" alt="->"></button></a>
+                <a href="/signup"><button class="button filled">Get Started <img class="right" src="/icons/arrow-right.svg" alt="->"></button></a>
                 <a href="/login"><button class="button transparent">Log In</button></a>
             </div>
         </div>
