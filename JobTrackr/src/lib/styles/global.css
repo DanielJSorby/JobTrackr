@@ -48,3 +48,21 @@ button.button.transparent:hover {
 a {
 	text-decoration: none;
 }
+
+input {
+	border-radius: 16px;
+	border: 1px solid #1d40b0;
+	border-style: dashed;
+	height: 40px;
+	padding: 0 10px;
+	font-size: 16px;
+}
+
+input:focus {
+	border-style: solid;
+}
+
+label {
+	font-size: 24px;
+	margin-bottom: -10px;
+}
