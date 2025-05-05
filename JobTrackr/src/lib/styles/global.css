@@ -6,6 +6,17 @@
 	font-family: "gesta", sans-serif;
 }
 
+:root {
+	--max-width: 1200px;
+	--mobile-padding: 1rem;
+	--desktop-padding: 2rem;
+}
+
+body {
+	overflow-x: hidden;
+	width: 100%;
+}
+
 button.button {
 	display: flex;
 	align-items: center;
@@ -13,9 +24,9 @@ button.button {
 	gap: 10px;
 	color: #000;
 	border: none;
-	padding: 10px 20px;
+	padding: clamp(8px, 2vw, 10px) clamp(16px, 3vw, 20px);
 	border-radius: 5px;
-	font-size: 20px;
+	font-size: clamp(16px, 2vw, 20px);
 	transition: all 0.3s ease;
 	cursor: pointer;
 }
@@ -53,16 +64,97 @@ input {
 	border-radius: 16px;
 	border: 1px solid #1d40b0;
 	border-style: dashed;
-	height: 40px;
-	padding: 0 10px;
-	font-size: 16px;
+	height: clamp(36px, 4vw, 40px);
+	padding: 0 clamp(8px, 2vw, 10px);
+	font-size: clamp(14px, 1.5vw, 16px);
+	width: 100%;
+	max-width: 100%;
 }
 
 input:focus {
 	border-style: solid;
+	outline: none;
 }
 
 label {
-	font-size: 24px;
+	font-size: clamp(18px, 2vw, 24px);
 	margin-bottom: -10px;
+}
+
+/* Responsive container */
+.container {
+	width: 100%;
+	max-width: var(--max-width);
+	margin: 0 auto;
+	padding: 0 var(--mobile-padding);
+}
+
+@media (min-width: 768px) {
+	.container {
+		padding: 0 var(--desktop-padding);
+	}
+}
+
+/* Responsive typography */
+h1 {
+	font-size: clamp(2rem, 5vw, 4rem);
+}
+
+h2 {
+	font-size: clamp(1.5rem, 4vw, 3rem);
+}
+
+h3 {
+	font-size: clamp(1.25rem, 3vw, 2rem);
+}
+
+p {
+	font-size: clamp(1rem, 1.5vw, 1.125rem);
+	line-height: 1.5;
+}
+
+/* Responsive images */
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+/* Responsive grid system */
+.grid {
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+}
+
+/* Responsive spacing */
+.section {
+	padding: clamp(2rem, 5vw, 4rem) 0;
+}
+
+/* Responsive margins */
+.mb-1 {
+	margin-bottom: clamp(0.5rem, 2vw, 1rem);
+}
+.mb-2 {
+	margin-bottom: clamp(1rem, 3vw, 2rem);
+}
+.mb-3 {
+	margin-bottom: clamp(1.5rem, 4vw, 3rem);
+}
+.mb-4 {
+	margin-bottom: clamp(2rem, 5vw, 4rem);
+}
+
+/* Responsive padding */
+.p-1 {
+	padding: clamp(0.5rem, 2vw, 1rem);
+}
+.p-2 {
+	padding: clamp(1rem, 3vw, 2rem);
+}
+.p-3 {
+	padding: clamp(1.5rem, 4vw, 3rem);
+}
+.p-4 {
+	padding: clamp(2rem, 5vw, 4rem);
 }
