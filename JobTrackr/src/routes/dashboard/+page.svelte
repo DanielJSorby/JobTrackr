@@ -43,9 +43,13 @@
         </div>
     </div>
     <div class="status-overview">
-        <StatusCount status={"Total" as Status} count={jobCount} />
+        <div class="status-card">
+            <StatusCount status={"Total" as Status} count={jobCount} />
+        </div>
         {#each Object.entries(statusCounts) as [status, count]}
-            <StatusCount status={status as Status} count={count} />
+            <div class="status-card">
+                <StatusCount status={status as Status} count={count} />
+            </div>
         {/each}
     </div>
 </div>
@@ -80,5 +84,10 @@
         gap: 1rem;
         margin: 20px;
         overflow-x: scroll;
+        scroll-snap-type: x mandatory;
+    }
+
+    .status-card {
+        scroll-snap-align: start;
     }
 </style>
