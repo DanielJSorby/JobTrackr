@@ -67,6 +67,12 @@
         border: 1px dotted #1d40b0;
         min-width: 300px;
         height: 150px;
+        transition: all 0.3s ease;
+    }
+
+    .status-card:hover {
+        border: 1px solid #1d40b0;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
 
     .status-card h3 {
