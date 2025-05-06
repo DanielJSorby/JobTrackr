@@ -4,6 +4,9 @@
     import type { LayoutData } from './$types';
     import '$lib/styles/global.css';
     import Navbar from '$lib/components/navbar.svelte';
+    import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
+
+    injectSpeedInsights();
 
     let { data, children }: { data: LayoutData, children: Snippet } = $props();
 </script>
