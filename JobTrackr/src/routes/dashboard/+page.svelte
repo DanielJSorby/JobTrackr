@@ -1,15 +1,34 @@
 <script lang="ts">
     import { onMount } from "svelte";
+    import StatusCount from "$lib/components/page-specific/dashboard/statusCount.svelte";
+    import type { Status } from "$lib/components/page-specific/dashboard/statusCount.svelte";
+
+    let statusCounts = $state<Record<string, number>>({});
 
     async function getJobs() {
         const response = await fetch("/api/user/jobs/dummyJobs.json");
         const data = await response.json();
-        return data;
+        return data.jobs;
+    }
+
+    let jobCount = $state(0);
+
+    function countJobsByStatus(jobs: any[]) {
+        const counts: Record<string, number> = {};
+        jobs.forEach(job => {
+            jobCount++;
+            if (job && job.status) {
+                counts[job.status] = (counts[job.status] || 0) + 1;
+            }
+        });
+        console.log('Status counts:', counts); // Debug log
+        return counts;
     }
 
     onMount(async () => {
         const jobs = await getJobs();
-        console.log(jobs);
+        console.log('Jobs data:', jobs); // Debug log
+        statusCounts = countJobsByStatus(jobs);
     });
 </script>
 
@@ -22,6 +41,12 @@
         <div class="top-part-right">
             <button class="button filled"><img src="/icons/add.svg" alt="+" />Add Job</button>
         </div>
+    </div>
+    <div class="status-overview">
+        <StatusCount status={"Total" as Status} count={jobCount} />
+        {#each Object.entries(statusCounts) as [status, count]}
+            <StatusCount status={status as Status} count={count} />
+        {/each}
     </div>
 </div>
 
@@ -48,5 +73,12 @@
         font-size: 20px;
         font-weight: 100;
         color: #6B7280;
+    }
+
+    .status-overview {
+        display: flex;
+        gap: 1rem;
+        margin: 20px;
+        overflow-x: scroll;
     }
 </style>
