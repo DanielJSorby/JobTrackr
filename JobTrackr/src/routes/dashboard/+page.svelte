@@ -4,10 +4,14 @@
     import type { Status } from "$lib/components/page-specific/dashboard/statusCount.svelte";
     import SearchInput from "$lib/components/search-input.svelte";
     import JobCard from "$lib/components/page-specific/dashboard/jobCard.svelte";
+    import StatusDropdown from "$lib/components/page-specific/dashboard/StatusDropdown.svelte";
+    import StatusTabs from "$lib/components/page-specific/dashboard/StatusTabs.svelte";
     let statusCounts = $state<Record<string, number>>({});
     let allJobs = $state<any[]>([]);
     let filteredJobs = $state<any[]>([]);
     let searchInput: SearchInput;
+    let statusFilter = $state('All Statuses');
+    const statusOptions = ['All Statuses', 'Saved', 'Applied', 'Interview', 'Offer', 'Rejected'];
 
     async function getJobs() {
         const response = await fetch("/api/user/jobs/dummyJobs.json");
@@ -36,17 +40,44 @@
         statusCounts = countJobsByStatus(allJobs);
     });
 
-    function handleSearch() {
-        const { searchQuery } = searchInput.getPrompt();
-        if (searchQuery) {
-            filteredJobs = allJobs.filter(job => 
+    function handleStatusChange(event: CustomEvent<{ status: string }>) {
+        statusFilter = event.detail.status;
+        filterJobs();
+    }
+
+    function filterJobs() {
+        const { searchQuery } = searchInput?.getPrompt?.() || { searchQuery: '' };
+        filteredJobs = allJobs.filter(job => {
+            const matchesStatus = statusFilter === 'All Statuses' || job.status === statusFilter;
+            const matchesSearch = !searchQuery ||
                 job.company_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 job.location?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                job.role_title?.toLowerCase().includes(searchQuery.toLowerCase())
-            );
-        } else {
-            filteredJobs = allJobs;
-        }
+                job.role_title?.toLowerCase().includes(searchQuery.toLowerCase());
+            return matchesStatus && matchesSearch;
+        });
+    }
+
+    function handleSearch() {
+        filterJobs();
+    }
+
+    // Helper to build tab counts
+    function getTabCounts() {
+        return [
+            { label: 'All', value: 'All', count: allJobs.length },
+            { label: 'Saved', value: 'Saved', count: statusCounts['Saved'] || 0 },
+            { label: 'Applied', value: 'Applied', count: statusCounts['Applied'] || 0 },
+            { label: 'Interview', value: 'Interview', count: statusCounts['Interview'] || 0 },
+            { label: 'Offers', value: 'Offer', count: statusCounts['Offer'] || 0 },
+            { label: 'Rejected', value: 'Rejected', count: statusCounts['Rejected'] || 0 },
+        ];
+    }
+    let tabFilter = $state('All');
+    function handleTabChange(event: CustomEvent<{ status: string }>) {
+        tabFilter = event.detail.status;
+        // Sync dropdown and tab filter for demo; you can decouple if needed
+        statusFilter = tabFilter === 'All' ? 'All Statuses' : tabFilter;
+        filterJobs();
     }
 </script>
 
@@ -76,8 +107,18 @@
             placeholder="Search for company, location or job title..." 
             on:search={handleSearch}
         />
+        <StatusDropdown
+            statuses={statusOptions}
+            bind:selected={statusFilter}
+            on:change={handleStatusChange}
+        />
         <button class="search-button" onclick={handleSearch}>Search</button>
     </div>
+    <StatusTabs
+        statuses={getTabCounts()}
+        bind:selected={tabFilter}
+        on:change={handleTabChange}
+    />
     <div class="jobs-list">
         {#each filteredJobs as job (job.id)}
             <JobCard {job} />
