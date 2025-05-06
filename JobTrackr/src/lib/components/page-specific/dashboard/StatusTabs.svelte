@@ -34,14 +34,16 @@
 <style>
 .status-tabs {
   display: flex;
-  gap: 2.5rem;
+  gap: 1.5rem;
   background: #f7f7f7;
   border-radius: 16px;
   padding: 12px 16px;
   margin: 20px 0 30px 0;
   align-items: center;
   width: fit-content;
+  flex-wrap: wrap;
 }
+
 .tab {
   display: flex;
   align-items: center;
@@ -53,13 +55,16 @@
   padding: 8px 18px;
   border-radius: 12px;
   transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
 }
+
 .tab.active {
   background: #fff;
   color: #1d40b0;
   font-weight: 600;
   box-shadow: 0 2px 8px rgba(29,64,176,0.07);
 }
+
 .count {
   background: #e5eaff;
   color: #1d40b0;
@@ -68,5 +73,41 @@
   font-size: 18px;
   font-weight: 600;
   margin-left: 4px;
+}
+
+@media (max-width: 768px) {
+  .status-tabs {
+    gap: 0.75rem;
+    padding: 8px 12px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .tab {
+    font-size: 18px;
+    padding: 6px 12px;
+  }
+
+  .count {
+    font-size: 16px;
+    padding: 2px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .status-tabs {
+    gap: 0.5rem;
+    padding: 6px 8px;
+  }
+
+  .tab {
+    font-size: 16px;
+    padding: 4px 8px;
+  }
+
+  .count {
+    font-size: 14px;
+    padding: 1px 6px;
+  }
 }
 </style> 
