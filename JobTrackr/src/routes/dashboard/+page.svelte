@@ -6,12 +6,14 @@
     import JobCard from "$lib/components/page-specific/dashboard/jobCard.svelte";
     import StatusDropdown from "$lib/components/page-specific/dashboard/StatusDropdown.svelte";
     import StatusTabs from "$lib/components/page-specific/dashboard/StatusTabs.svelte";
+    import AddJobDialog from './AddJobDialog.svelte';
     let statusCounts = $state<Record<string, number>>({});
     let allJobs = $state<any[]>([]);
     let filteredJobs = $state<any[]>([]);
     let searchInput: SearchInput;
     let statusFilter = $state('All Statuses');
     const statusOptions = ['All Statuses', 'Saved', 'Applied', 'Interview', 'Offer', 'Rejected'];
+    let showAddJobDialog = $state(false);
 
     async function getJobs() {
         const response = await fetch("/api/user/jobs/dummyJobs.json");
@@ -88,7 +90,7 @@
             <p>Track and manage your job search process</p>
         </div>
         <div class="top-part-right">
-            <button class="button filled"><img src="/icons/add.svg" alt="+" />Add Job</button>
+            <button class="button filled" onclick={() => showAddJobDialog = true}><img src="/icons/add.svg" alt="+" />Add Job</button>
         </div>
     </div>
     <div class="status-overview">
@@ -124,6 +126,7 @@
             <JobCard {job} />
         {/each}
     </div>
+    <AddJobDialog open={showAddJobDialog} on:close={() => showAddJobDialog = false} />
 </div>
 
 <style>
