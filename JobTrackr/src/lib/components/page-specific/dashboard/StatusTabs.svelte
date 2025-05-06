@@ -38,7 +38,7 @@
   background: #f7f7f7;
   border-radius: 16px;
   padding: 12px 16px;
-  margin: 20px 0 30px 20px;
+  margin: 20px 20px 30px 20px;
   align-items: center;
   width: fit-content;
   flex-wrap: wrap;
