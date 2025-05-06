@@ -69,6 +69,12 @@
         font-weight: bold;
         color: #fff;
         text-decoration: none;
+        transition: text-shadow 0.3s ease;
+    }
+
+    .logo a:hover {
+        text-shadow: 4px 4px 2px rgba(0,0,0,0.6);
+        transition: text-shadow 0.3s ease;
     }
     
 </style>
