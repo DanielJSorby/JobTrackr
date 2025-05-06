@@ -149,36 +149,4 @@
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
         gap: 1rem;
     }
-
-    .job-card {
-        background: white;
-        padding: 1rem;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .job-card h3 {
-        margin: 0 0 0.5rem 0;
-        font-size: 1.2rem;
-    }
-
-    .job-card .company {
-        color: #4B5563;
-        margin: 0 0 0.25rem 0;
-        font-weight: 500;
-    }
-
-    .job-card .location {
-        color: #6B7280;
-        margin: 0 0 0.5rem 0;
-        font-size: 0.9rem;
-    }
-
-    .status-badge {
-        display: inline-block;
-        padding: 0.25rem 0.5rem;
-        border-radius: 4px;
-        background: #E5E7EB;
-        font-size: 0.875rem;
-    }
 </style>
