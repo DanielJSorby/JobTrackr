@@ -5,11 +5,13 @@
     import '$lib/styles/global.css';
     import Navbar from '$lib/components/navbar.svelte';
     import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
-    import { injectAnalytics } from '@vercel/analytics/sveltekit'
-
+    import { dev } from '$app/environment';
+    import { injectAnalytics } from '@vercel/analytics/sveltekit';
+ 
+    injectAnalytics({ mode: dev ? 'development' : 'production' });
     injectSpeedInsights();
-    injectAnalytics();
-    
+
+
     let { data, children }: { data: LayoutData, children: Snippet } = $props();
 </script>
 
