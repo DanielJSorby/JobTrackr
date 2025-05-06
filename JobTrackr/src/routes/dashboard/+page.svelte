@@ -2,8 +2,12 @@
     import { onMount } from "svelte";
     import StatusCount from "$lib/components/page-specific/dashboard/statusCount.svelte";
     import type { Status } from "$lib/components/page-specific/dashboard/statusCount.svelte";
-
+    import SearchInput from "$lib/components/search-input.svelte";
+    import JobCard from "$lib/components/page-specific/dashboard/jobCard.svelte";
     let statusCounts = $state<Record<string, number>>({});
+    let allJobs = $state<any[]>([]);
+    let filteredJobs = $state<any[]>([]);
+    let searchInput: SearchInput;
 
     async function getJobs() {
         const response = await fetch("/api/user/jobs/dummyJobs.json");
@@ -21,15 +25,29 @@
                 counts[job.status] = (counts[job.status] || 0) + 1;
             }
         });
-        console.log('Status counts:', counts); // Debug log
+        console.log('Status counts:', counts);
         return counts;
     }
 
     onMount(async () => {
-        const jobs = await getJobs();
-        console.log('Jobs data:', jobs); // Debug log
-        statusCounts = countJobsByStatus(jobs);
+        allJobs = await getJobs();
+        filteredJobs = allJobs;
+        console.log('Jobs data:', allJobs);
+        statusCounts = countJobsByStatus(allJobs);
     });
+
+    function handleSearch() {
+        const { searchQuery } = searchInput.getPrompt();
+        if (searchQuery) {
+            filteredJobs = allJobs.filter(job => 
+                job.company_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                job.location?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                job.role_title?.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+        } else {
+            filteredJobs = allJobs;
+        }
+    }
 </script>
 
 <div>
@@ -50,6 +68,19 @@
             <div class="status-card">
                 <StatusCount status={status as Status} count={count} />
             </div>
+        {/each}
+    </div>
+    <div class="search">
+        <SearchInput 
+            bind:this={searchInput} 
+            placeholder="Search for company, location or job title..." 
+            on:search={handleSearch}
+        />
+        <button class="search-button" onclick={handleSearch}>Search</button>
+    </div>
+    <div class="jobs-list">
+        {#each filteredJobs as job (job.id)}
+            <JobCard {job} />
         {/each}
     </div>
 </div>
@@ -89,5 +120,65 @@
 
     .status-card {
         scroll-snap-align: start;
+    }
+
+    .search {
+        display: flex;
+        gap: 1rem;
+        margin: 20px;
+        align-items: center;
+    }
+
+    .search-button {
+        padding: 0.5rem 1rem;
+        background: #1d40b0;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 500;
+    }
+
+    .search-button:hover {
+        background: #1e3a8a;
+    }
+
+    .jobs-list {
+        margin: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1rem;
+    }
+
+    .job-card {
+        background: white;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .job-card h3 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.2rem;
+    }
+
+    .job-card .company {
+        color: #4B5563;
+        margin: 0 0 0.25rem 0;
+        font-weight: 500;
+    }
+
+    .job-card .location {
+        color: #6B7280;
+        margin: 0 0 0.5rem 0;
+        font-size: 0.9rem;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        background: #E5E7EB;
+        font-size: 0.875rem;
     }
 </style>
