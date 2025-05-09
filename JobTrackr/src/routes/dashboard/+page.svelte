@@ -7,7 +7,6 @@
     import StatusDropdown from "$lib/components/page-specific/dashboard/StatusDropdown.svelte";
     import StatusTabs from "$lib/components/page-specific/dashboard/StatusTabs.svelte";
     import AddJobDialog from './AddJobDialog.svelte';
-    import GoogleAd from "$lib/components/page-specific/dashboard/GoogleAd.svelte";
     let statusCounts = $state<Record<string, number>>({});
     let allJobs = $state<any[]>([]);
     let filteredJobs = $state<any[]>([]);
@@ -125,9 +124,6 @@
     <div class="jobs-list">
         {#each filteredJobs as job, index (job.id)}
             <JobCard {job} />
-            {#if (index + 1) % 5 === 0}
-                <GoogleAd />
-            {/if}
         {/each}
     </div>
     <AddJobDialog open={showAddJobDialog} on:close={() => showAddJobDialog = false} />
