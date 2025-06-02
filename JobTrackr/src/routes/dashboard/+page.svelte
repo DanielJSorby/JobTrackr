@@ -6,7 +6,7 @@
     import JobCard from "$lib/components/page-specific/dashboard/jobCard.svelte";
     import StatusDropdown from "$lib/components/page-specific/dashboard/StatusDropdown.svelte";
     import StatusTabs from "$lib/components/page-specific/dashboard/StatusTabs.svelte";
-    import AddJobDialog from './AddJobDialog.svelte';
+    import AddJobDialog from '$lib/components/AddJobDialog.svelte';
     let statusCounts = $state<Record<string, number>>({});
     let allJobs = $state<any[]>([]);
     let filteredJobs = $state<any[]>([]);
@@ -192,5 +192,13 @@
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
         gap: 1rem;
+    }
+
+    @media (max-width: 655px) {
+        .jobs-list {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
     }
 </style>
