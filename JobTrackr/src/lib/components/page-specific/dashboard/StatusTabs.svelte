@@ -20,14 +20,13 @@
 
 <div class="status-tabs">
   {#each statuses as { label, value, count }}
-    <div
+    <button
       class="tab {selected === value ? 'active' : ''}"
       on:click={() => selectTab(value)}
-      tabindex="0"
     >
       <span>{label}</span>
       <span class="count">{count}</span>
-    </div>
+    </button>
   {/each}
 </div>
 
