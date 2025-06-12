@@ -3,6 +3,7 @@
 ## Table Of Content
 
 1. [Introduction](#introduction)
+2. [How to self host Jobtrackr](#how-to-self-host-jobtrackr)
 
 ## Introduction
 
@@ -157,3 +158,50 @@ You will see:
 If something is not working, check if you have forgotten a Semicolon ; and if that wont work, do some research.
 
 Now is the database structure finally set up
+
+### Set up the website.
+
+To set up the website, you first have to clone this repository using one of theese commands, or using Github Desktop or downloading a zip file [here](https://github.com/DanielJSorby/JobTrackr/archive/refs/heads/main.zip).
+
+```BASH
+gh repo clone DanielJSorby/JobTrackr
+
+git@github.com:DanielJSorby/JobTrackr.git
+
+https://github.com/DanielJSorby/JobTrackr.git
+```
+
+When you're inside the folder of the repository, you'll have to change directory into the JobTrackr folder using:
+
+```Bash
+cd JobTrackr
+```
+
+Then you'll have to install neccesary requirements using
+
+```bash
+npm install
+```
+
+Remember you need to have Node install. You can install it from their website at [nodejs.org/en/download](https://nodejs.org/en/download)
+
+The next thing you need to do, is to start the website using:
+
+```Bash
+npm run dev
+```
+
+Then you will se the website up and running at the given ip adress. If you dont see it, press "o" and enter in the terminal to automatically open the website
+
+### Setting up the Enviroment variables
+
+To connect to the database, you'll need to set up the enviroment variables that makes it possible. To do this, you'll have to create a file called ".env" in the JobTrackr folder.
+
+Inside of this folder you need to have this structure:
+
+```env
+DB_HOST={Ip adress of the database (localhost if it's on your own machine)}
+DB_USER={The user of the database. If you don't know, put "root"}
+DB_PASSWORD={The password you set for your database}
+DB_NAME={Name of the database. If you followed this tutorial, it's "Jobtrackr"}
+```
