@@ -14,6 +14,9 @@ Jobtrackr is a website where you can have all your job applications in one place
 ### TOC
 
 1. [Install MariaDB](#install-mariadb)
+2. [Set up the database](#set-up-the-database)
+3. [Set up the website](#set-up-the-website)
+4. [Setting up the Enviroment variables](#setting-up-the-enviroment-variables)
 
 ### Install MariaDB
 
