@@ -36,6 +36,17 @@ button.button.filled {
 	color: #fff;
 }
 
+button.button.error {
+	background-color: #ef4444;
+	color: white;
+}
+
+button.button.error:hover {
+	background-color: #e95151;
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(29, 64, 176, 0.2);
+}
+
 button.button.filled:hover {
 	background-color: #2d50c0;
 	transform: translateY(-2px);
