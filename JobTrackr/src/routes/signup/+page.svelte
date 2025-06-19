@@ -2,19 +2,38 @@
     let name = $state('');
     let email = $state('');
     let password = $state('');
+    let errorMessage = $state('');
 
     async function handleSubmit() {
         try {
+            errorMessage = ''; // Clear previous error
+            
             const response = await fetch('/api/user/create-user', {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({ name, email, password }),
             });
+            
             const data = await response.json();
             console.log(data);
+            
+            if (data.status === 409) {
+                errorMessage = data.error;
+                return;
+            }
+            
+            if (data.status === 200) {
+                document.cookie = `UserId=${data.userId}; path=/;`;
+                window.location.href = '/dashboard';
+            } else {
+                errorMessage = data.error || 'An error occurred';
+            }
         } catch (error) {
             console.error(error);
+            errorMessage = 'An error occurred while creating your account';
         }
-        window.location.href = '/dashboard';
     }
 </script>
 
@@ -24,7 +43,12 @@
             <h1>Sign Up</h1>
             <p>Create an account to get started</p>
         </div>
-        <form onsubmit={handleSubmit}>
+        {#if errorMessage}
+            <div class="error-message">
+                {errorMessage}
+            </div>
+        {/if}
+        <form on:submit|preventDefault={handleSubmit}>
             <label for="name">Name</label>
             <input type="text" id="name" placeholder="John Doe" bind:value={name} required />
             <label for="email">Email</label>
@@ -40,6 +64,17 @@
 </div>
 
 <style>
+    .error-message {
+        background-color: #fef2f2;
+        border: 1px solid #fecaca;
+        color: #dc2626;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        text-align: center;
+        font-weight: 500;
+    }
+
     .bottom-message {
         display: flex;
         justify-content: center;
