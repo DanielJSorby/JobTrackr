@@ -1,5 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
+    import { getCookie } from "$lib/functions/getCookie";
     import StatusCount from "$lib/components/page-specific/dashboard/statusCount.svelte";
     import type { Status } from "$lib/components/page-specific/dashboard/statusCount.svelte";
     import SearchInput from "$lib/components/search-input.svelte";
@@ -14,6 +15,12 @@
     let statusFilter = $state('All Statuses');
     const statusOptions = ['All Statuses', 'Saved', 'Applied', 'Interview', 'Offer', 'Rejected'];
     let showAddJobDialog = $state(false);
+    let UserId = $state('');
+
+    onMount(async () => {
+        const cookieValue = getCookie('UserId');
+        UserId = cookieValue || '';
+    });
 
     let jobs:any = [];
 
@@ -24,7 +31,7 @@
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify({ UserId: 'user-1' })
+				body: JSON.stringify({ UserId: UserId })
 			});
 			
 			const data = await response.json();
