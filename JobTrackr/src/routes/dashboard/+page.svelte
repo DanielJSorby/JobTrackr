@@ -15,11 +15,31 @@
     const statusOptions = ['All Statuses', 'Saved', 'Applied', 'Interview', 'Offer', 'Rejected'];
     let showAddJobDialog = $state(false);
 
-    async function getJobs() {
-        const response = await fetch("/api/user/jobs/dummyJobs.json");
-        const data = await response.json();
-        return data.jobs;
-    }
+    let jobs:any = [];
+
+	async function getJobs() {
+		try {
+			const response = await fetch('/api/jobs', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ UserId: 'user-1' })
+			});
+			
+			const data = await response.json();
+
+			if (data.error) {
+				console.error('Error loading jobs:', data.error);
+				return [];
+			}
+
+			return data.jobs;
+		} catch (error) {
+			console.error('Error:', error);
+			return [];
+		}
+	}
 
     let jobCount = $state(0);
 

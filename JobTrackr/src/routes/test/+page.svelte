@@ -10,7 +10,7 @@
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify({ user_id: 'user-1' })
+				body: JSON.stringify({ UserId: 'user-1' })
 			});
 			
 			const data = await response.json();
