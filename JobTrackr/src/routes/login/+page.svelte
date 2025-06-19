@@ -1,20 +1,38 @@
 <script lang="ts">
     let email = $state('');
     let password = $state('');
+    let errorMessage = $state('');
 
     async function handleSubmit() {
         try {
+            errorMessage = ''; // Clear previous error
+            
             const response = await fetch('/api/user/log-in', {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({ email, password }),
             });
+            
             const data = await response.json();
             console.log(data);
-            console.log(`User ID: ${data.userId}`);
+            
+            if (data.status === 401) {
+                errorMessage = data.error;
+                return;
+            }
+            
+            if (data.status === 200) {
+                document.cookie = `UserId=${data.userId}; path=/;`;
+                window.location.href = '/dashboard';
+            } else {
+                errorMessage = data.error || 'An error occurred';
+            }
         } catch (error) {
             console.error(error);
+            errorMessage = 'An error occurred while logging in';
         }
-        window.location.href = '/dashboard';
     }
 </script>
 
@@ -24,7 +42,12 @@
             <h1>Log In</h1>
             <p>Enter your credentials to access your account</p>
         </div>
-        <form onsubmit={handleSubmit}>
+        {#if errorMessage}
+            <div class="error-message">
+                {errorMessage}
+            </div>
+        {/if}
+        <form on:submit|preventDefault={handleSubmit}>
             <label for="email">Email</label>
             <input type="email" id="email" placeholder="john@email.com" bind:value={email} required/>
             <label for="password">Password</label>
@@ -38,6 +61,17 @@
 </div>
 
 <style>
+    .error-message {
+        background-color: #fef2f2;
+        border: 1px solid #fecaca;
+        color: #dc2626;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        text-align: center;
+        font-weight: 500;
+    }
+
     .bottom-message {
         display: flex;
         justify-content: center;
