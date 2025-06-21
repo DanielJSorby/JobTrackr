@@ -1,32 +1,8 @@
 <script lang="ts">
+    import { formatDate } from '$lib/functions/formatDate';
+    import { getStatusBg, getStatusText } from '$lib/functions/statusColors';
+
     let { job } = $props();
-    // Status badge color mapping
-    const statusColors: Record<string, string> = {
-        'Applied': '#F7E7B6',
-        'Interview': '#E9D8FD',
-        'Rejected': '#FDE2E1',
-        'Offer': '#D1FADF',
-        'Saved': '#E0E7FF',
-        // Add more statuses as needed
-    };
-    const statusTextColors: Record<string, string> = {
-        'Applied': '#7C6F2A',
-        'Interview': '#6B21A8',
-        'Rejected': '#B91C1C',
-        'Offer': '#027A48',
-        'Saved': '#2563EB',
-    };
-    function getStatusBg(status: string): string {
-        return statusColors[status] || '#E5E7EB';
-    }
-    function getStatusText(status: string): string {
-        return statusTextColors[status] || '#374151';
-    }
-    function formatDate(dateStr: string): string {
-        if (!dateStr) return '';
-        const date = new Date(dateStr);
-        return date.toLocaleDateString('no-NO', { day: '2-digit', month: 'short', year: 'numeric' });
-    }
 </script>
 
 <div class="job-card">
@@ -63,7 +39,7 @@
             <svg width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 10.5l5-5m0 0H9m3.5 0v3.5" stroke="#1d2939" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="3" y="3" width="12" height="12" rx="2" stroke="#1d2939" stroke-width="1.5"/></svg>
             View Job
         </a>
-        <button class="job-btn secondary">View Details</button>
+        <a href={`/job/${job.id}`}><button class="job-btn secondary">View Details</button></a>
     </div>
 </div>
 

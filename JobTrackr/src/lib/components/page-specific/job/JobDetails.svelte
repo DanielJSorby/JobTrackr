@@ -1,39 +1,7 @@
 <script lang="ts">
-    export let company_name: string;
-    export let location: string;
-    export let application_date: string;
-    export let status: string;
-    export let job_link: string;
-
-    const statusColors: Record<string, string> = {
-        'Applied': '#F7E7B6',
-        'Interview': '#E9D8FD',
-        'Rejected': '#FDE2E1',
-        'Offer': '#D1FADF',
-        'Saved': '#E0E7FF'
-    };
-
-    const statusTextColors: Record<string, string> = {
-        'Applied': '#7C6F2A',
-        'Interview': '#6B21A8',
-        'Rejected': '#B91C1C',
-        'Offer': '#027A48',
-        'Saved': '#2563EB',
-    };
-
-    function getStatusBg(status: string): string {
-        return statusColors[status] || '#E5E7EB';
-    }
-
-    function getStatusText(status: string): string {
-        return statusTextColors[status] || '#374151';
-    }
-
-    function formatDate(dateStr: string): string {
-        if (!dateStr) return '';
-        const date = new Date(dateStr);
-        return date.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
-    }
+    import { formatDate } from '$lib/functions/formatDate';
+    import { getStatusBg, getStatusText } from '$lib/functions/statusColors';
+    let { company_name, location, application_date, status, job_link } = $props();
 </script>
 
 <div class="box job-details">
