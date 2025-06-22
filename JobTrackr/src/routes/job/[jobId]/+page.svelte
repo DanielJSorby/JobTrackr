@@ -1,7 +1,8 @@
 <script lang="ts">
     import JobDetails from '$lib/components/page-specific/job/JobDetails.svelte';
     import Notes from '$lib/components/page-specific/job/Notes.svelte';
-    
+    import Timeline from '$lib/components/page-specific/job/timeline.svelte';
+    import { onMount } from 'svelte';
     export let data;
     console.log(data)
 
@@ -28,18 +29,32 @@
     </div>
 </div>
 
-<div class="first-row">
-    <JobDetails 
-        {company_name}
-        {location}
-        {application_date}
-        {status}
-        {job_link}
-    />
-    <Notes {notes} />
+<div class="rows">
+    <div class="first-row">
+        <JobDetails 
+            {company_name}
+            {location}
+            {application_date}
+            {status}
+            {job_link}
+        />
+        <Notes {notes} />
+    </div>
+
+    <div class="second-row">
+        <Timeline {timeline} />
+    </div>
 </div>
 
 <style>
+    button {
+        margin-top: 10px;
+        max-width: fit-content !important;
+    }
+    .rows {
+        display: flex;
+        width: 100%;
+    }
     .top-part {
         margin-top: 100px;
         display: flex;
@@ -56,6 +71,9 @@
     }
     
     .first-row {
-        width: 1100px;
+        width: 70%;
+    }
+    .second-row {
+        width: 26%;
     }
 </style> 
