@@ -10,7 +10,8 @@
 		console.log('Timeline effect triggered, job.timeline:', job.timeline);
 		if (typeof job.timeline === 'string') {
 			try {
-				job.timeline = JSON.parse(job.timeline);
+				const parsed = JSON.parse(job.timeline);
+				job.timeline = parsed;
 			} catch (e) {
 				console.error('Error parsing timeline:', e);
 				job.timeline = { steps: [] };
@@ -25,12 +26,28 @@
 		console.log('Timeline after parsing:', job.timeline);
 	});
 
+	// Ensure timeline is always an object with steps array
+	const timelineData = $derived(
+		typeof job.timeline === 'string' 
+			? (() => {
+				try {
+					return JSON.parse(job.timeline);
+				} catch (e) {
+					return { steps: [] };
+				}
+			})()
+			: (job.timeline || { steps: [] })
+	);
+
 	function addStep() {
 		const newStep = { date: new Date().toISOString().slice(0, 10), event: '' };
+		if (!job.timeline) job.timeline = { steps: [] };
+		if (!job.timeline.steps) job.timeline.steps = [];
 		job.timeline.steps = [...job.timeline.steps, newStep];
 	}
 
 	function deleteStep(index: number) {
+		if (!job.timeline?.steps) return;
 		job.timeline.steps.splice(index, 1);
 		job.timeline.steps = job.timeline.steps;
 	}
@@ -63,21 +80,23 @@
 			<button class="button" on:click={addStep}>Add Step</button>
 		</div>
 	{:else}
-			<div class="timeline">
-		{#if job.timeline?.steps?.length > 0}
-			{#each job.timeline.steps as step, i (i)}
-				<div class="step">
-					<img src="/icons/timeline.svg" alt="Timeline" />
-					<div class="step-content">
-						<p class="date">{formatDate(step.date)}</p>
-						<p class="event">{step.event}</p>
-					</div>
+		<div class="timeline">
+			{#if timelineData.steps?.length > 0}
+				<div class="timeline-container">
+					{#each timelineData.steps as step, i (i)}
+						<div class="step">
+							<img src="/icons/timeline.svg" alt="Timeline" />
+							<div class="step-content">
+								<p class="date">{formatDate(step.date)}</p>
+								<p class="event">{step.event}</p>
+							</div>
+						</div>
+					{/each}
 				</div>
-			{/each}
-		{:else}
-			<p>No timeline data available</p>
-		{/if}
-	</div>
+			{:else}
+				<p>No timeline data available</p>
+			{/if}
+		</div>
 	{/if}
 </div>
 
@@ -95,6 +114,38 @@
 		display: flex;
 		flex-direction: column;
 		gap: 10px;
+	}
+	.timeline-container {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		max-height: 180px;
+		overflow-y: auto;
+	}
+	.timeline-scrollable {
+		max-height: 200px;
+		overflow-y: auto;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		padding-right: 10px;
+		border-top: 1px solid #e5e7eb;
+		padding-top: 10px;
+		margin-top: 10px;
+	}
+	.timeline-scrollable::-webkit-scrollbar {
+		width: 6px;
+	}
+	.timeline-scrollable::-webkit-scrollbar-track {
+		background: #f1f1f1;
+		border-radius: 3px;
+	}
+	.timeline-scrollable::-webkit-scrollbar-thumb {
+		background: #c1c1c1;
+		border-radius: 3px;
+	}
+	.timeline-scrollable::-webkit-scrollbar-thumb:hover {
+		background: #a8a8a8;
 	}
 	.step {
 		display: flex;
