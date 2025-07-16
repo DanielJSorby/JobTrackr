@@ -16,7 +16,14 @@
     }
 </script>
 
-<input style="width: {width}; height: {height};" type="text" bind:value={searchQuery} placeholder={placeholder} class="search-input" on:keydown={handleKeydown} />
+<input 
+    style="width: {width}; height: {height};" 
+    type="text" 
+    bind:value={searchQuery} 
+    placeholder={placeholder} 
+    class="search-input" 
+    onkeydown={handleKeydown} 
+/>
 
 <style>
     .search-input {

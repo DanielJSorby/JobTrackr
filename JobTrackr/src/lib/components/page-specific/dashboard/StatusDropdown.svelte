@@ -25,25 +25,51 @@
       open = false;
     }
   }
+
+  function handleKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      open = !open;
+    } else if (event.key === 'Escape') {
+      open = false;
+    }
+  }
+
+  function handleItemKeydown(event: KeyboardEvent, status: string) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      selectStatus(status);
+    }
+  }
 </script>
 
-<div class="dropdown" tabindex="0" on:blur={handleBlur}>
-  <div class="dropdown-selected" on:click={() => (open = !open)}>
+<div class="dropdown" role="combobox" aria-expanded={open} aria-haspopup="listbox" tabindex="0" on:blur={handleBlur} on:keydown={handleKeydown}>
+  <button 
+    type="button"
+    class="dropdown-selected" 
+    on:click={() => (open = !open)}
+    on:keydown={handleKeydown}
+    aria-label="Select status"
+  >
     <span>{selected}</span>
     <svg class="chevron" width="20" height="20" viewBox="0 0 20 20"><path d="M6 8l4 4 4-4" stroke="#222" stroke-width="2" fill="none"/></svg>
-  </div>
+  </button>
   {#if open}
-    <div class="dropdown-list">
+    <div class="dropdown-list" role="listbox">
       {#each statuses as status}
-        <div
+        <button
+          type="button"
           class="dropdown-item {selected === status ? 'selected' : ''}"
           on:click={() => selectStatus(status)}
+          on:keydown={(e) => handleItemKeydown(e, status)}
+          role="option"
+          aria-selected={selected === status}
         >
           {#if selected === status}
             <svg width="20" height="20" viewBox="0 0 20 20" style="margin-right: 8px;"><polyline points="4 11 8 15 16 6" stroke="#1d40b0" stroke-width="2" fill="none"/></svg>
           {/if}
           {status}
-        </div>
+        </button>
       {/each}
     </div>
   {/if}
@@ -69,6 +95,8 @@
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0,0,0,0.07);
   border: none;
+  width: 100%;
+  text-align: left;
 }
 
 .chevron {
@@ -99,6 +127,10 @@
   display: flex;
   align-items: center;
   transition: background 0.15s;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
 }
 
 .dropdown-item.selected {
