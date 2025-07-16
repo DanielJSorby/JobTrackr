@@ -1,8 +1,17 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
+    import { getCookie } from '$lib/functions/getCookie';
     let name = $state('');
     let email = $state('');
     let password = $state('');
     let errorMessage = $state('');
+
+    onMount(async () => {
+        const userId = getCookie('UserId');
+        if (userId) {
+            window.location.href = '/dashboard';
+        }
+    });
 
     async function handleSubmit() {
         try {
