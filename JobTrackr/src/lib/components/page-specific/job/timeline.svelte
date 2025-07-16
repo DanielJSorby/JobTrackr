@@ -5,20 +5,25 @@
 		edit: boolean;
 	}>();
 
-	if (typeof job.timeline === 'string') {
-		try {
-			job.timeline = JSON.parse(job.timeline);
-		} catch (e) {
-			console.error('Error parsing timeline:', e);
+	// Effect to handle timeline parsing
+	$effect(() => {
+		console.log('Timeline effect triggered, job.timeline:', job.timeline);
+		if (typeof job.timeline === 'string') {
+			try {
+				job.timeline = JSON.parse(job.timeline);
+			} catch (e) {
+				console.error('Error parsing timeline:', e);
+				job.timeline = { steps: [] };
+			}
+		}
+		if (!job.timeline) {
 			job.timeline = { steps: [] };
 		}
-	}
-	if (!job.timeline) {
-		job.timeline = { steps: [] };
-	}
-	if (!job.timeline.steps) {
-		job.timeline.steps = [];
-	}
+		if (!job.timeline.steps) {
+			job.timeline.steps = [];
+		}
+		console.log('Timeline after parsing:', job.timeline);
+	});
 
 	function addStep() {
 		const newStep = { date: new Date().toISOString().slice(0, 10), event: '' };
@@ -58,21 +63,21 @@
 			<button class="button" on:click={addStep}>Add Step</button>
 		</div>
 	{:else}
-		<div class="timeline">
-			{#if job.timeline?.steps?.length > 0}
-				{#each job.timeline.steps as step}
-					<div class="step">
-						<img src="/icons/timeline.svg" alt="Timeline" />
-						<div class="step-content">
-							<p class="date">{formatDate(step.date)}</p>
-							<p class="event">{step.event}</p>
-						</div>
+			<div class="timeline">
+		{#if job.timeline?.steps?.length > 0}
+			{#each job.timeline.steps as step, i (i)}
+				<div class="step">
+					<img src="/icons/timeline.svg" alt="Timeline" />
+					<div class="step-content">
+						<p class="date">{formatDate(step.date)}</p>
+						<p class="event">{step.event}</p>
 					</div>
-				{/each}
-			{:else}
-				<p>No timeline data available</p>
-			{/if}
-		</div>
+				</div>
+			{/each}
+		{:else}
+			<p>No timeline data available</p>
+		{/if}
+	</div>
 	{/if}
 </div>
 
@@ -107,7 +112,7 @@
 	.event {
 		color: #000;
 		font-weight: 500;
-		font-size: 1.8rem;
+		font-size: 1.6rem;
 	}
 	.timeline-edit {
 		display: flex;

@@ -34,6 +34,21 @@
             });
 
             if (response.ok) {
+                // Refresh the page data to get updated timeline
+                const result = await response.json();
+                if (result.job) {
+                    // Ensure timeline is properly parsed
+                    if (typeof result.job.timeline === 'string') {
+                        try {
+                            result.job.timeline = JSON.parse(result.job.timeline);
+                        } catch (e) {
+                            console.error('Error parsing timeline:', e);
+                            result.job.timeline = { steps: [] };
+                        }
+                    }
+                    console.log('Updated job with timeline:', result.job.timeline);
+                    job = result.job;
+                }
                 edit = false;
                 originalJob = null;
             } else {

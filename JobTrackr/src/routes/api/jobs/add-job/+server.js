@@ -24,6 +24,15 @@ export async function POST({ request }) {
         const jobId = uuidv4();
         const formatted_date = date ? new Date(date).toISOString().slice(0, 10) : null;
         
+        // Create initial timeline entry
+        const today = new Date().toISOString().slice(0, 10);
+        const initialTimeline = {
+            steps: [{
+                date: today,
+                event: 'Added tracking'
+            }]
+        };
+        
         await db.query(`
             INSERT INTO jobs (
                 id, 
@@ -34,8 +43,9 @@ export async function POST({ request }) {
                 location, 
                 status, 
                 notes, 
-                job_link
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                job_link,
+                timeline
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `, [
             jobId,
             userId,
@@ -45,7 +55,8 @@ export async function POST({ request }) {
             location || null,
             status || 'Saved',
             notes || null,
-            jobLink || null
+            jobLink || null,
+            JSON.stringify(initialTimeline)
         ]);
 
         return new Response(JSON.stringify({ 
