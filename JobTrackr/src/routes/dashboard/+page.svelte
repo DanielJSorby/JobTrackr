@@ -108,6 +108,16 @@
         statusFilter = tabFilter === 'All' ? 'All Statuses' : tabFilter;
         filterJobs();
     }
+
+    async function handleJobAdded() {
+        // Refresh jobs list after adding a new job
+        allJobs = await getJobs();
+        filteredJobs = allJobs;
+        statusCounts = countJobsByStatus(allJobs);
+        // Reset job count before recounting
+        jobCount = 0;
+        statusCounts = countJobsByStatus(allJobs);
+    }
 </script>
 
 <div>
@@ -153,7 +163,11 @@
             <JobCard {job} />
         {/each}
     </div>
-    <AddJobDialog open={showAddJobDialog} on:close={() => showAddJobDialog = false} />
+    <AddJobDialog 
+        open={showAddJobDialog} 
+        on:close={() => showAddJobDialog = false}
+        on:jobAdded={handleJobAdded}
+    />
 </div>
 
 <style>

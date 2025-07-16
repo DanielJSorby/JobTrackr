@@ -1,5 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher, onMount } from 'svelte';
+  import { getCookie } from '$lib/functions/getCookie';
   export let open = false;
   const dispatch = createEventDispatcher();
   let dialogEl: HTMLDialogElement;
@@ -12,11 +13,34 @@
   let date = '';
   let jobLink = '';
   let notes = '';
+  let userId = '';
+  let isSubmitting = false;
+  let errorMessage = '';
+
+  onMount(() => {
+    userId = getCookie('UserId') || '';
+    console.log('AddJobDialog mounted, userId:', userId);
+    console.log('All cookies:', document.cookie);
+    console.log('getCookie result:', getCookie('UserId'));
+  });
 
   // Lukk dialogen og send event
   function closeDialog() {
     dispatch('close');
     dialogEl.close();
+    // Reset form
+    resetForm();
+  }
+
+  function resetForm() {
+    company = '';
+    position = '';
+    location = '';
+    status = 'Saved';
+    date = '';
+    jobLink = '';
+    notes = '';
+    errorMessage = '';
   }
 
   // Åpne/lukk dialogen når prop endres
@@ -30,8 +54,66 @@
     }
   }
 
-  function handleSubmit() {
-    // Ikke gjør noe, bare forhindre submit
+  async function handleSubmit() {
+    console.log('handleSubmit called');
+    console.log('userId:', userId);
+    console.log('company:', company);
+    console.log('position:', position);
+    
+    if (!userId) {
+      errorMessage = 'User not authenticated. Please log in again.';
+      console.error('No userId found');
+      return;
+    }
+
+    if (!company.trim() || !position.trim()) {
+      errorMessage = 'Company and position are required.';
+      console.error('Missing required fields');
+      return;
+    }
+
+    isSubmitting = true;
+    errorMessage = '';
+
+    const jobData = {
+      userId,
+      company: company.trim(),
+      position: position.trim(),
+      location: location.trim(),
+      status,
+      date: date || null,
+      jobLink: jobLink.trim(),
+      notes: notes.trim()
+    };
+
+    console.log('Sending job data:', jobData);
+
+    try {
+      const response = await fetch('/api/jobs/add-job', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(jobData)
+      });
+
+      console.log('Response received:', response);
+      const data = await response.json();
+      console.log('Response data:', data);
+
+      if (response.ok) {
+        // Success - close dialog and dispatch event
+        dispatch('jobAdded', { jobId: data.jobId });
+        closeDialog();
+      } else {
+        errorMessage = data.message || 'Failed to add job. Please try again.';
+      }
+    } catch (error) {
+      console.error('Error adding job:', error);
+      errorMessage = 'An error occurred while adding the job. Please try again.';
+    } finally {
+      isSubmitting = false;
+    }
   }
 </script>
 
@@ -45,20 +127,25 @@
       <button class="close-btn" on:click={closeDialog} aria-label="Close">x</button>
     </div>
     <form class="modal-form" autocomplete="off" on:submit|preventDefault={handleSubmit}>
+      {#if errorMessage}
+        <div class="error-message">
+          {errorMessage}
+        </div>
+      {/if}
       <div class="row">
         <div class="field">
-          <label for="company">Company</label>
-          <input id="company" type="text" placeholder="" bind:value={company} />
+          <label for="company">Company *</label>
+          <input id="company" type="text" placeholder="Enter company name" bind:value={company} required />
         </div>
         <div class="field">
-          <label for="position">Position</label>
-          <input id="position" type="text" placeholder="" bind:value={position} />
+          <label for="position">Position *</label>
+          <input id="position" type="text" placeholder="Enter job title" bind:value={position} required />
         </div>
       </div>
       <div class="row">
         <div class="field">
           <label for="location">Location</label>
-          <input id="location" type="text" placeholder="" bind:value={location} />
+          <input id="location" type="text" placeholder="Enter location" bind:value={location} />
         </div>
         <div class="field">
           <label for="status">Status</label>
@@ -88,8 +175,10 @@
         </div>
       </div>
       <div class="modal-actions">
-        <button type="button" class="cancel-btn" on:click={closeDialog}>Cancel</button>
-        <button type="submit" class="add-btn">Add Job</button>
+        <button type="button" class="cancel-btn" on:click={closeDialog} disabled={isSubmitting}>Cancel</button>
+        <button type="submit" class="add-btn" disabled={isSubmitting}>
+          {isSubmitting ? 'Adding...' : 'Add Job'}
+        </button>
       </div>
     </form>
   </div>
@@ -212,6 +301,16 @@ textarea {
 }
 .add-btn:hover {
   background: #1e3a8a;
+}
+.error-message {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 @media (max-width: 600px) {
   .add-job-dialog,
