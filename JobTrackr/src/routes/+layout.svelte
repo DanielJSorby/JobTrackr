@@ -25,7 +25,7 @@
 {#if $page.route.id == '/login' || $page.route.id == '/signup' || $page.route.id == '/'}
     <Navbar />
     {:else}
-    <Navbar links={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Logout', href: '/logout' }]}/>
+    <Navbar links={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Profile', href: '/profile' }, { label: 'Logout', href: '/logout' }]}/>
 {/if}
 
 {@render children()}
