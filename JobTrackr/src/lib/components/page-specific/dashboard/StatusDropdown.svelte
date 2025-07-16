@@ -43,7 +43,7 @@
   }
 </script>
 
-<div class="dropdown" role="combobox" aria-expanded={open} aria-haspopup="listbox" tabindex="0" on:blur={handleBlur} on:keydown={handleKeydown}>
+<div class="dropdown" role="combobox" aria-expanded={open} aria-haspopup="listbox" aria-controls="status-listbox" tabindex="0" on:blur={handleBlur} on:keydown={handleKeydown}>
   <button 
     type="button"
     class="dropdown-selected" 
@@ -55,7 +55,7 @@
     <svg class="chevron" width="20" height="20" viewBox="0 0 20 20"><path d="M6 8l4 4 4-4" stroke="#222" stroke-width="2" fill="none"/></svg>
   </button>
   {#if open}
-    <div class="dropdown-list" role="listbox">
+    <div id="status-listbox" class="dropdown-list" role="listbox">
       {#each statuses as status}
         <button
           type="button"
