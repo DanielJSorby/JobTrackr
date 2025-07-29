@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /api
+Disallow: /job/*
+Disallow: /login
+Disallow: /signup
+
+Made by Daniel Johan Sorby
