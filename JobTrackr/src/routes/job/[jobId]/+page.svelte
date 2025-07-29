@@ -121,4 +121,18 @@
     .second-row {
         width: 26%;
     }
+
+    @media (max-width: 1115px) {
+        .rows {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+        .first-row {
+            width: 100%;
+        }
+        .second-row {
+            width: 96%;
+        }
+    }
 </style> 
