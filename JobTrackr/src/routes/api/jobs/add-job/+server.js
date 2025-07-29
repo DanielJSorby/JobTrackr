@@ -1,4 +1,4 @@
-import { db } from "$lib/server/db";
+import { getDb } from "$lib/server/db";
 import { v4 as uuidv4 } from 'uuid';
 
 export async function POST({ request }) {
@@ -21,6 +21,7 @@ export async function POST({ request }) {
             }), { status: 400 });
         }
 
+        const db = await getDb();
         const jobId = uuidv4();
         const formatted_date = date ? new Date(date).toISOString().slice(0, 10) : null;
         

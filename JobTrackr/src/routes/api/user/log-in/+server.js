@@ -1,4 +1,4 @@
-import { db } from "$lib/server/db";
+import { getDb } from "$lib/server/db";
 import { json } from "@sveltejs/kit";
 import bcrypt from 'bcrypt';
 
@@ -9,6 +9,8 @@ export async function POST({ request }) {
         if (!email || !password) {
             return json({ status: 400, error: "Email and password are required" });
         }
+
+        const db = await getDb();
 
         // Find user by email
         const [ users ] = await db.query(`

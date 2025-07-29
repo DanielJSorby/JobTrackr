@@ -1,4 +1,4 @@
-import { db } from "$lib/server/db";
+import { getDb } from "$lib/server/db";
 import { json } from "@sveltejs/kit";
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
@@ -10,6 +10,8 @@ export async function POST({ request }) {
         if (!name || !email || !password) {
             return json({ status: 400, error: "Name, email, and password are required" });
         }
+
+        const db = await getDb();
 
         // Check if user with email already exists
         const [ existingUsers ] = await db.query(`

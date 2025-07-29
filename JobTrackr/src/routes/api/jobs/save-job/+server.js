@@ -1,4 +1,4 @@
-import { db } from '$lib/server/db';
+import { getDb } from '$lib/server/db';
 
 function getStatusEvent(status) {
     switch (status) {
@@ -34,6 +34,8 @@ export async function POST({ request }) {
     } = job;
 
     const formatted_date = application_date ? new Date(application_date).toISOString().slice(0, 10) : null;
+
+    const db = await getDb();
 
     // Get current job data to detect status changes
     let currentJob = null;

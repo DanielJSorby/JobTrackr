@@ -1,4 +1,4 @@
-import { db } from "$lib/server/db";
+import { getDb } from "$lib/server/db";
 import { json } from "@sveltejs/kit";
 
 export async function POST({ request }) {
@@ -9,6 +9,7 @@ export async function POST({ request }) {
             return json({ status: 400, error: "UserId is required" });
         }
 
+        const db = await getDb();
         const [ rows ] = await db.query(`
             SELECT * FROM jobs
             WHERE user_id = ?
