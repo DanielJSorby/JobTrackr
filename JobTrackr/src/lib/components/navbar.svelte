@@ -14,6 +14,7 @@
                 <a href={link.href}>{link.label}</a>
             </li>
         {/each}
+
     </ul>
     
     <!-- Hamburger Menu Button -->
@@ -32,6 +33,7 @@
                     <a href={link.href}>{link.label}</a>
                 </li>
             {/each}
+
         </ul>
     </div>
 </nav>
@@ -178,6 +180,8 @@
         font-size: 2rem;
         font-weight: bold;
     }
+    
+
     
     /* Responsive Design */
     @media (max-width: 768px) {

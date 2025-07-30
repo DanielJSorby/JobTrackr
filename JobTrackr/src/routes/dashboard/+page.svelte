@@ -8,6 +8,9 @@
     import StatusDropdown from "$lib/components/page-specific/dashboard/StatusDropdown.svelte";
     import StatusTabs from "$lib/components/page-specific/dashboard/StatusTabs.svelte";
     import AddJobDialog from '$lib/components/AddJobDialog.svelte';
+    import Tutorial from '$lib/components/Tutorial.svelte';
+    import TutorialPrompt from '$lib/components/TutorialPrompt.svelte';
+    import { shouldShowTutorial, markTutorialCompleted } from '$lib/functions/tutorialManager';
     let statusCounts = $state<Record<string, number>>({});
     let allJobs = $state<any[]>([]);
     let filteredJobs = $state<any[]>([]);
@@ -16,6 +19,9 @@
     const statusOptions = ['All Statuses', 'Saved', 'Applied', 'Interview', 'Offer', 'Rejected'];
     let showAddJobDialog = $state(false);
     let UserId = $state('');
+    let showTutorialPrompt = $state(false);
+    let showTutorial = $state(false);
+    let tutorialStep = $state(0);
 
     onMount(async () => {
         const cookieValue = getCookie('UserId');
@@ -67,6 +73,11 @@
         filteredJobs = allJobs;
         console.log('Jobs data:', allJobs);
         statusCounts = countJobsByStatus(allJobs);
+        
+        // Check if tutorial should be shown
+        if (shouldShowTutorial('dashboard')) {
+            showTutorialPrompt = true;
+        }
     });
 
     function handleStatusChange(event: CustomEvent<{ status: string }>) {
@@ -118,6 +129,22 @@
         jobCount = 0;
         statusCounts = countJobsByStatus(allJobs);
     }
+    
+    function handleTutorialStart() {
+        showTutorialPrompt = false;
+        showTutorial = true;
+        tutorialStep = 0;
+    }
+    
+    function handleTutorialDismiss() {
+        showTutorialPrompt = false;
+        markTutorialCompleted('dashboard');
+    }
+    
+    function handleTutorialComplete() {
+        showTutorial = false;
+        markTutorialCompleted('dashboard');
+    }
 </script>
 
 <div>
@@ -167,6 +194,20 @@
         open={showAddJobDialog} 
         on:close={() => showAddJobDialog = false}
         on:jobAdded={handleJobAdded}
+    />
+    
+    <TutorialPrompt 
+        show={showTutorialPrompt}
+        tutorialType="dashboard"
+        on:start={handleTutorialStart}
+        on:dismiss={handleTutorialDismiss}
+    />
+    
+    <Tutorial 
+        open={showTutorial}
+        bind:currentStep={tutorialStep}
+        tutorialType="dashboard"
+        on:complete={handleTutorialComplete}
     />
 </div>
 

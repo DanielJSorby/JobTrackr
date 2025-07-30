@@ -3,12 +3,19 @@
     import Notes from '$lib/components/page-specific/job/Notes.svelte';
     import Timeline from '$lib/components/page-specific/job/timeline.svelte';
     import QuickActions from '$lib/components/page-specific/job/quickActions.svelte';
-    export let data;
+    import Tutorial from '$lib/components/Tutorial.svelte';
+    import TutorialPrompt from '$lib/components/TutorialPrompt.svelte';
+    import { shouldShowTutorial, markTutorialCompleted } from '$lib/functions/tutorialManager';
+    import { onMount } from 'svelte';
+    let { data } = $props();
     console.log(data)
     let edit = false;
 
     let job = data.job;
     let originalJob: any = null;
+    let showTutorialPrompt = $state(false);
+    let showTutorial = $state(false);
+    let tutorialStep = $state(0);
 
     function startEdit() {
         originalJob = JSON.parse(JSON.stringify(job));
@@ -62,6 +69,29 @@
     function deleteJob() {
         console.log("delete")
     }
+    
+    onMount(() => {
+        // Check if tutorial should be shown
+        if (shouldShowTutorial('job')) {
+            showTutorialPrompt = true;
+        }
+    });
+    
+    function handleTutorialStart() {
+        showTutorialPrompt = false;
+        showTutorial = true;
+        tutorialStep = 0;
+    }
+    
+    function handleTutorialDismiss() {
+        showTutorialPrompt = false;
+        markTutorialCompleted('job');
+    }
+    
+    function handleTutorialComplete() {
+        showTutorial = false;
+        markTutorialCompleted('job');
+    }
 </script>
 
 <div class="top-part">
@@ -90,6 +120,20 @@
         <QuickActions on:edit={startEdit} on:delete={deleteJob} />
     </div>
 </div>
+
+<TutorialPrompt 
+    show={showTutorialPrompt}
+    tutorialType="job"
+    on:start={handleTutorialStart}
+    on:dismiss={handleTutorialDismiss}
+/>
+
+<Tutorial 
+    open={showTutorial}
+    bind:currentStep={tutorialStep}
+    tutorialType="job"
+    on:complete={handleTutorialComplete}
+/>
 
 <style>
     button {
