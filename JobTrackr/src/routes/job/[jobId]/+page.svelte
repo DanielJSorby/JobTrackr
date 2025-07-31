@@ -9,7 +9,7 @@
     import { onMount } from 'svelte';
     let { data } = $props();
     console.log(data)
-    let edit = false;
+    let edit = $state(false);
 
     let job = data.job;
     let originalJob: any = null;
@@ -18,8 +18,10 @@
     let tutorialStep = $state(0);
 
     function startEdit() {
+        console.log('startEdit called');
         originalJob = JSON.parse(JSON.stringify(job));
         edit = true;
+        console.log('edit set to:', edit);
     }
 
     function cancelEdit() {
@@ -32,16 +34,25 @@
 
     async function saveJob() {
         try {
+            // Ensure date is properly formatted
+            const jobToSave = { ...job };
+            if (jobToSave.application_date) {
+                // Convert to ISO string format if it's not already
+                const date = new Date(jobToSave.application_date);
+                if (!isNaN(date.getTime())) {
+                    jobToSave.application_date = date.toISOString().slice(0, 10);
+                }
+            }
+
             const response = await fetch('/api/jobs/save-job', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(job)
+                body: JSON.stringify(jobToSave)
             });
 
             if (response.ok) {
-                // Refresh the page data to get updated timeline
                 const result = await response.json();
                 if (result.job) {
                     // Ensure timeline is properly parsed
@@ -53,21 +64,44 @@
                             result.job.timeline = { steps: [] };
                         }
                     }
-                    console.log('Updated job with timeline:', result.job.timeline);
                     job = result.job;
                 }
                 edit = false;
                 originalJob = null;
             } else {
-                console.error('Failed to save job');
+                const errorData = await response.json();
+                console.error('Failed to save job:', errorData);
+                alert('Failed to save job. Please try again.');
             }
         } catch (e) {
             console.error('Error saving job', e);
+            alert('Error saving job. Please try again.');
         }
     }
 
-    function deleteJob() {
-        console.log("delete")
+    async function deleteJob() {
+        if (confirm('Are you sure you want to delete this job?')) {
+            try {
+                const response = await fetch('/api/jobs/delete-job', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ jobId: job.id })
+                });
+
+                if (response.ok) {
+                    // Redirect to dashboard after successful deletion
+                    window.location.href = '/dashboard';
+                } else {
+                    console.error('Failed to delete job');
+                    alert('Failed to delete job. Please try again.');
+                }
+            } catch (e) {
+                console.error('Error deleting job', e);
+                alert('Error deleting job. Please try again.');
+            }
+        }
     }
     
     onMount(() => {
@@ -98,11 +132,11 @@
     <div class="role"><h1>{job.role_title}</h1></div>
     <div class="buttons">
         {#if edit}
-            <button class="button filled" on:click={saveJob}>Save</button>
-            <button class="button error" on:click={cancelEdit}>Cancel</button>
+            <button class="button filled" onclick={saveJob}>Save</button>
+            <button class="button error" onclick={cancelEdit}>Cancel</button>
         {:else}
-            <button class="button filled" on:click={startEdit}>Edit</button>
-            <button class="button error" on:click={deleteJob}>
+            <button class="button filled" onclick={startEdit}>Edit</button>
+            <button class="button error" onclick={deleteJob}>
                 <img src="/icons/trash.svg" alt="Delete"> Delete
             </button>
         {/if}
