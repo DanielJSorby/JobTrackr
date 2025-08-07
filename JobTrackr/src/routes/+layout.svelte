@@ -18,6 +18,20 @@
 <svelte:head>
     <title>JobTrackr</title>
     <meta name="description" content="JobTrackr is a tool for tracking your job applications.">
+    
+    <!-- Common SEO Meta Tags -->
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Daniel Johan Sorby" />
+    <link rel="canonical" href="https://jobtracker.danielsorby.no" />
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://jobtracker.danielsorby.no" />
+    <meta property="og:site_name" content="JobTrackr" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1582322793713299"
      crossorigin="anonymous"></script>
 </svelte:head>

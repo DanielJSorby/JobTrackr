@@ -1,7 +1,15 @@
 User-agent: *
-Disallow: /api
-Disallow: /job/*
+Allow: /
+
+# Block sensitive areas
+Disallow: /api/
 Disallow: /login
 Disallow: /signup
+Disallow: /logout
+Disallow: /profile
+Disallow: /dashboard
+
+# Allow sitemap
+Sitemap: https://jobtracker.danielsorby.no/sitemap.xml
 
 Made by Daniel Johan Sorby
